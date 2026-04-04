@@ -1,0 +1,1 @@
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => { chrome.storage.sync.get("block", (data) => { if (data.block && tab.url) { if (tab.url.includes("facebook.com") || tab.url.includes("tiktok.com")) { chrome.tabs.update(tabId, { url: "https://www.google.com" }); } } }); });
