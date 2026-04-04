@@ -1,0 +1,1 @@
+{"manifest_version": 3, "name": "Study Helper", "version": "1.0", "description": "Focus and study better", "permissions": ["storage", "tabs", "scripting"], "host_permissions": ["*://*/*"], "action": { "default_popup": "popup.html" }, "background": { "service_worker": "blocker.js" }}
