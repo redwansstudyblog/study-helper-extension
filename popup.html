@@ -1,1 +1,165 @@
-<!DOCTYPE html><html><head><link rel="stylesheet" href="style.css"></head><body><div class="container"><h2>📚 Study Mode</h2><h1 id="time">25:00</h1><div class="btns"><button id="start">Start</button><button id="toggleBlock">Block: OFF</button></div><input id="taskInput" placeholder="Add task..." /><button id="addTask">+</button><ul id="taskList"></ul><button id="summarize">Summarize</button><button id="explain">Explain</button><p id="result"></p><p id="quote"></p></div><script src="script.js"><\/script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h2 id="appTitle">📚 Study Helper</h2>
+    <div class="stats-mini" id="statsMini">আজ: ০ মিনিট</div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="timer" id="tabTimer">⏱ Timer</button>
+    <button class="tab-btn" data-tab="stats" id="tabStats">📈 Stats</button>
+    <button class="tab-btn" data-tab="settings" id="tabSettings">⚙️</button>
+  </div>
+
+  <!-- ════ TAB: TIMER ════ -->
+  <div id="tab-timer" class="tab-content active">
+
+    <div id="phaseBadge" class="phase-badge study">📖 পড়ার সময়</div>
+    <h1 id="time">25:00</h1>
+    <div class="round-info" id="roundInfo">Round ১ / ৪</div>
+
+    <div class="pomo-settings">
+      <div class="setting-item">
+        <label id="lbl-study">পড়া</label>
+        <input type="number" id="studyMins" value="25" min="1" max="120">
+        <span>min</span>
+      </div>
+      <div class="setting-item">
+        <label id="lbl-break">বিরতি</label>
+        <input type="number" id="breakMins" value="5" min="1" max="60">
+        <span>min</span>
+      </div>
+      <div class="setting-item">
+        <label id="lbl-rounds">Round</label>
+        <input type="number" id="totalRounds" value="4" min="1" max="20">
+        <span>×</span>
+      </div>
+    </div>
+
+    <div class="btns">
+      <button id="start">▶ শুরু</button>
+      <button id="skipPhase">⏭ Skip</button>
+      <button id="stopReset">↺ Reset</button>
+    </div>
+
+    <div class="block-row">
+      <div class="block-indicator">
+        <span class="dot" id="blockDot"></span>
+        <span id="blockLabel">Block: বন্ধ</span>
+      </div>
+      <button id="toggleBlock" class="small-btn">Toggle</button>
+    </div>
+    <p id="statusMsg" class="status-msg"></p>
+
+    <!-- Tasks -->
+    <div class="section-title" id="lbl-tasks">📝 কাজের তালিকা</div>
+    <div class="task-row">
+      <input type="text" id="taskInput" placeholder="কাজ যোগ করো...">
+      <button id="addTask">+</button>
+    </div>
+    <ul id="taskList"></ul>
+
+    <!-- Block List -->
+    <div class="section-title" id="lbl-blocklist">🌐 Block তালিকা</div>
+    <div id="pinUnlockRow" class="pin-unlock-row" style="display:none">
+      <input type="password" id="pinUnlockInput" placeholder="PIN দাও" maxlength="4">
+      <button id="pinUnlockBtn">Unlock 🔓</button>
+    </div>
+    <div id="blockListSection">
+      <div class="task-row">
+        <input type="text" id="siteInput" placeholder="যেমন: youtube.com">
+        <button id="addSite">+</button>
+      </div>
+      <ul id="siteList"></ul>
+    </div>
+
+    <!-- AI -->
+    <div class="section-title" id="lbl-ai">🤖 AI সহায়তা</div>
+    <div class="btns">
+      <button id="summarize">সারসংক্ষেপ</button>
+      <button id="explain">বুঝিয়ে দাও</button>
+    </div>
+    <p id="result"></p>
+  </div>
+
+  <!-- ════ TAB: STATS ════ -->
+  <div id="tab-stats" class="tab-content">
+    <div class="stats-header">
+      <div class="stats-card">
+        <div class="stats-num" id="statsTodayNum">০</div>
+        <div class="stats-label" id="lbl-today-card">আজকের মিনিট</div>
+      </div>
+      <div class="stats-card">
+        <div class="stats-num" id="streakNum">০ 🔥</div>
+        <div class="stats-label" id="lbl-streak">দিনের streak</div>
+      </div>
+    </div>
+    <div class="section-title" id="lbl-stats">📈 সাপ্তাহিক পরিসংখ্যান</div>
+    <div id="weekChart" class="week-chart"></div>
+    <div id="chartLabels" class="chart-labels"></div>
+    <div class="section-title" style="margin-top:12px">📋 সেশনের ইতিহাস</div>
+    <div id="sessionHistory" class="session-history"></div>
+  </div>
+
+  <!-- ════ TAB: SETTINGS ════ -->
+  <div id="tab-settings" class="tab-content">
+
+    <!-- Language -->
+    <div class="setting-row">
+      <span>🌍 Language / ভাষা</span>
+      <div class="lang-toggle">
+        <button id="langEn" class="lang-btn">EN</button>
+        <button id="langBn" class="lang-btn active">বাং</button>
+      </div>
+    </div>
+
+    <!-- Water Reminder -->
+    <div class="setting-row">
+      <div>
+        <div id="lbl-water">💧 পানির রিমাইন্ডার</div>
+        <div class="sub-label" id="lbl-water-sub">প্রতি ৩০ মিনিটে</div>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="waterToggle">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <!-- Scheduled Auto-Start -->
+    <div class="setting-block">
+      <div class="setting-block-title" id="lbl-schedule">⏰ অটো-স্টার্ট</div>
+      <div class="task-row">
+        <input type="time" id="scheduleTime" class="time-input">
+        <button id="setScheduleBtn" id="lbl-set">সেট</button>
+        <button id="clearScheduleBtn" class="danger-btn">বাতিল</button>
+      </div>
+      <div id="scheduleStatus" class="sub-status"></div>
+    </div>
+
+    <!-- PIN Lock -->
+    <div class="setting-block">
+      <div class="setting-block-title" id="lbl-pin">🔒 Block তালিকা লক</div>
+      <div class="task-row">
+        <input type="password" id="pinInput" placeholder="৪ সংখ্যার PIN" maxlength="4" class="pin-input-field">
+        <button id="setPinBtn">সেট</button>
+        <button id="removePinBtn" class="danger-btn">মুছো</button>
+      </div>
+      <div id="pinStatus" class="sub-status"></div>
+    </div>
+
+  </div>
+
+  <p id="quote"></p>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
