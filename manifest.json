@@ -1,1 +1,17 @@
-{"manifest_version": 3, "name": "Study Helper", "version": "1.0", "description": "Focus and study better", "permissions": ["storage", "tabs", "scripting"], "host_permissions": ["*://*/*"], "action": { "default_popup": "popup.html" }, "background": { "service_worker": "blocker.js" }}
+{
+  "manifest_version": 3,
+  "name": "Study Helper",
+  "version": "3.0",
+  "description": "Focus, study better, block distractions",
+  "permissions": ["storage", "tabs", "scripting", "notifications", "alarms"],
+  "host_permissions": ["*://*/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": { "16": "icon16.png", "48": "icon48.png", "128": "icon128.png" }
+  },
+  "icons": { "16": "icon16.png", "48": "icon48.png", "128": "icon128.png" },
+  "background": { "service_worker": "blocker.js" },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src https://api.deepseek.com"
+  }
+}
